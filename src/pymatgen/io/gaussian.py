@@ -660,6 +660,7 @@ class GaussianOutput:
         geom_orientation = None
         opt_structures = []
         route_lower = {}
+        mulliken_txt = []
 
         with zopen(filename, mode="rt", encoding="utf-8") as file:
             for line in file:
@@ -940,6 +941,7 @@ class GaussianOutput:
                         eigen_txt.append(line)
                         read_eigen = True
                     elif mulliken_patt.search(line):
+                        mulliken_txt = []
                         read_mulliken = True
                     elif not parse_forces and forces_on_patt.search(line):
                         parse_forces = True
@@ -967,7 +969,6 @@ class GaussianOutput:
                         parse_bond_order = True
 
                     if read_mulliken:
-                        mulliken_txt = []
                         if not end_mulliken_patt.search(line):
                             mulliken_txt.append(line)
                         else:
